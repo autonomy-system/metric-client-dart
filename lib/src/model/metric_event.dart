@@ -8,7 +8,6 @@ part 'metric_event.g.dart';
 class MetricEvent extends HiveObject {
   MetricEvent(
       {required this.name,
-      required this.message,
       required this.data,
       required this.hashedData,
       required this.timestamp});
@@ -17,15 +16,12 @@ class MetricEvent extends HiveObject {
   String name;
 
   @HiveField(1)
-  String? message;
-
-  @HiveField(2)
   Map<String, dynamic> data;
 
-  @HiveField(3)
+  @HiveField(2)
   Map<String, dynamic> hashedData;
 
-  @HiveField(4)
+  @HiveField(3)
   int timestamp;
 
   @override

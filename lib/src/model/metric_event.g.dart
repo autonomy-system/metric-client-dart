@@ -18,26 +18,23 @@ class MetricEventAdapter extends TypeAdapter<MetricEvent> {
     };
     return MetricEvent(
       name: fields[0] as String,
-      message: fields[1] as String?,
-      data: (fields[2] as Map).cast<String, dynamic>(),
-      hashedData: (fields[3] as Map).cast<String, dynamic>(),
-      timestamp: fields[4] as int,
+      data: (fields[1] as Map).cast<String, dynamic>(),
+      hashedData: (fields[2] as Map).cast<String, dynamic>(),
+      timestamp: fields[3] as int,
     );
   }
 
   @override
   void write(BinaryWriter writer, MetricEvent obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(4)
       ..writeByte(0)
       ..write(obj.name)
       ..writeByte(1)
-      ..write(obj.message)
-      ..writeByte(2)
       ..write(obj.data)
-      ..writeByte(3)
+      ..writeByte(2)
       ..write(obj.hashedData)
-      ..writeByte(4)
+      ..writeByte(3)
       ..write(obj.timestamp);
   }
 
@@ -58,7 +55,6 @@ class MetricEventAdapter extends TypeAdapter<MetricEvent> {
 
 MetricEvent _$MetricEventFromJson(Map<String, dynamic> json) => MetricEvent(
       name: json['name'] as String,
-      message: json['message'] as String?,
       data: json['data'] as Map<String, dynamic>,
       hashedData: json['hashedData'] as Map<String, dynamic>,
       timestamp: json['timestamp'] as int,
@@ -67,7 +63,6 @@ MetricEvent _$MetricEventFromJson(Map<String, dynamic> json) => MetricEvent(
 Map<String, dynamic> _$MetricEventToJson(MetricEvent instance) =>
     <String, dynamic>{
       'name': instance.name,
-      'message': instance.message,
       'data': instance.data,
       'hashedData': instance.hashedData,
       'timestamp': instance.timestamp,

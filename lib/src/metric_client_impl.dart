@@ -41,7 +41,6 @@ class MetricClientImpl implements MetricClientInterface {
     }
     final event = MetricEvent(
         name: name,
-        message: message,
         data: data,
         hashedData: hashedData,
         timestamp: DateTime.now().millisecondsSinceEpoch);
@@ -51,11 +50,12 @@ class MetricClientImpl implements MetricClientInterface {
   @override
   Future<void> sendMetrics() async {
     final events = hiveBox.toMap();
-    final body = events.values.fold(List<String>.empty(growable: true),
-        (value, element) {
+    if (events.isEmpty) return;
+    final body = events.values.fold<List<String>>(
+        List<String>.empty(growable: true), (value, element) {
       value.add(jsonEncode(element.toJson()));
       return value;
-    }).join("/n");
+    }).join("\n");
 
     // url
     final url = _apiOption.endpoint;
