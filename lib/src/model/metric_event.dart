@@ -6,11 +6,17 @@ part 'metric_event.g.dart';
 @JsonSerializable()
 @HiveType(typeId: 1)
 class MetricEvent extends HiveObject {
-  MetricEvent(
-      {required this.name,
-      required this.data,
-      required this.hashedData,
-      required this.timestamp});
+  MetricEvent({
+    required this.name,
+    required this.data,
+    required this.hashedData,
+    required this.timestamp,
+    this.device_id,
+    this.internal_build,
+    this.user_id,
+    this.platform,
+    this.version,
+  });
 
   @HiveField(0)
   String name;
@@ -23,6 +29,21 @@ class MetricEvent extends HiveObject {
 
   @HiveField(3)
   int timestamp;
+
+  @HiveField(4)
+  String? user_id;
+
+  @HiveField(5)
+  String? device_id;
+
+  @HiveField(6)
+  String? platform;
+
+  @HiveField(7)
+  String? version;
+
+  @HiveField(8)
+  bool? internal_build;
 
   @override
   String toString() {

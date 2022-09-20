@@ -1,4 +1,5 @@
 import 'package:logging/logging.dart';
+import 'package:metric_client/src/model/device_config.dart';
 
 class StorageOption {
   String name;
@@ -20,10 +21,14 @@ abstract class MetricClientInterface {
       required APIOption apiOption,
       Logger? logger});
 
-  Future<void> addEvent(String name,
-      {String? message,
-      Map<String, dynamic> data = const {},
-      Map<String, dynamic> hashedData = const {}});
+  Future<void> addEvent(
+    String name, {
+    String? userId,
+    String? message,
+    Map<String, dynamic> data = const {},
+    Map<String, dynamic> hashedData = const {},
+    DeviceConfig? deviceConfig,
+  });
 
   Future<void> sendMetrics();
 

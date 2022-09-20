@@ -7,5 +7,6 @@ import 'package:metric_client/src/metric_client.dart';
 import 'package:metric_client/src/metric_client_impl.dart';
 
 export 'src/metric_client.dart';
+export 'src/model/device_config.dart';
 
 final MetricClientInterface MetricClient = MetricClientImpl();

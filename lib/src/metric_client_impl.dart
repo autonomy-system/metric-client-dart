@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:logging/logging.dart';
 import 'package:metric_client/src/metric_client.dart';
 import 'package:hive/hive.dart';
+import 'package:metric_client/src/model/device_config.dart';
 import 'package:metric_client/src/model/metric_event.dart';
 import 'package:crypto/crypto.dart';
 import 'package:http/http.dart' as http;
@@ -31,19 +32,29 @@ class MetricClientImpl implements MetricClientInterface {
   }
 
   @override
-  Future<void> addEvent(String name,
-      {String? message,
-      Map<String, dynamic> data = const {},
-      Map<String, dynamic> hashedData = const {}}) async {
+  Future<void> addEvent(
+    String name, {
+    String? userId,
+    String? message,
+    Map<String, dynamic> data = const {},
+    Map<String, dynamic> hashedData = const {},
+    DeviceConfig? deviceConfig,
+  }) async {
     if (hashedData.isNotEmpty) {
       hashedData = hashedData.map((key, value) =>
           MapEntry(key, sha224.convert(utf8.encode(value)).toString()));
     }
     final event = MetricEvent(
-        name: name,
-        data: data,
-        hashedData: hashedData,
-        timestamp: DateTime.now().millisecondsSinceEpoch);
+      name: name,
+      data: data,
+      hashedData: hashedData,
+      timestamp: DateTime.now().millisecondsSinceEpoch,
+      user_id: userId,
+      device_id: deviceConfig?.deviceId ?? '',
+      platform: deviceConfig?.platform ?? '',
+      version: deviceConfig?.version ?? '',
+      internal_build: deviceConfig?.internalBuild ?? false,
+    );
     await hiveBox.add(event);
   }
 
